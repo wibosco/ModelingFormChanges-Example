@@ -1,6 +1,6 @@
 language: objective-c
 
-osx_image: xcode8
+osx_image: xcode8.2
 
 script:
    xcodebuild -project ModelingFormChanges-Example.xcodeproj -scheme ModelingFormChanges-Example test -destination 'platform=iOS Simulator,name=iPhone 6'
