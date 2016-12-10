@@ -3,4 +3,4 @@ language: objective-c
 osx_image: xcode8.2
 
 script:
-   xcodebuild -project ModelingFormChanges-Example.xcodeproj -scheme ModelingFormChanges-Example test -destination 'platform=iOS Simulator,name=iPhone 6'
+   travis_retry xcodebuild -project ModelingFormChanges-Example.xcodeproj -scheme ModelingFormChanges-Example test -destination "platform=iOS Simulator,OS=10.1,name=iPhone SE"
