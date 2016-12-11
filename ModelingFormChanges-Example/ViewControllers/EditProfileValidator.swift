@@ -75,12 +75,39 @@ class EditProfileValidator: NSObject {
     init(user: User) {
         self.user = user
         super.init()
+        
+        firstName = user.firstName
+        lastName = user.lastName
+        email = user.email
+        age = user.age
     }
     
     // MARK: - Change
     
     func hasMadeChanges() -> Bool {
         return firstNameChanged || lastNameChanged || emailChanged || ageChanged
+    }
+    
+    func changes() -> [String: Any] {
+        var changes = [String: Any]()
+        
+        if firstNameChanged {
+            changes["firstname"] = firstName
+        }
+        
+        if lastNameChanged {
+            changes["lastname"] = lastName
+        }
+        
+        if emailChanged {
+            changes["email"] = email
+        }
+        
+        if ageChanged {
+            changes["age"] = age
+        }
+        
+        return changes
     }
     
     // MARK: - Validators

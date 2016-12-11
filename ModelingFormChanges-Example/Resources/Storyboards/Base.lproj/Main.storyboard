@@ -204,10 +204,14 @@
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="dhW-yk-Dqe" firstAttribute="top" secondItem="tyb-14-pj5" secondAttribute="top" constant="60" id="7fv-7d-6Je"/>
                                             <constraint firstItem="dhW-yk-Dqe" firstAttribute="centerX" secondItem="tyb-14-pj5" secondAttribute="centerX" id="oqi-Tp-sLE"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="mpe-q4-llW" appends="YES" id="Wd9-AA-cXb"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -243,6 +247,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="mpe-q4-llW">
+                    <connections>
+                        <action selector="backgroundTapped:" destination="BYZ-38-t0r" id="b3U-0u-VtS"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-167.19999999999999" y="14.842578710644679"/>
         </scene>

@@ -45,6 +45,11 @@ class EditProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
      
         clearAllErrors()
+        
+        firstNameTextField.text = user.firstName
+        lastNameTextField.text = user.lastName
+        emailTextField.text = user.email
+        ageTextField.text = "\(user.age)"
     }
     
     // MARK: - ButtonActions
@@ -55,7 +60,7 @@ class EditProfileViewController: UIViewController {
         if validator.hasMadeChanges() {
             switch validator.validateAccountDetails() {
             case .Success:
-                let alertController = UIAlertController(title: "Save Changes", message: "Can successfully save changes", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Save Changes", message: "Can successfully save changes: \n \(validator.changes())", preferredStyle: .alert)
                 let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(dismissAction)
                 
@@ -129,6 +134,13 @@ class EditProfileViewController: UIViewController {
             self.scrollViewBottomConstraint?.constant = 0
             self.scrollView.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    // MARK: - Gesture
+    
+    
+    @IBAction func backgroundTapped(_ sender: Any) {
+        view.endEditing(true)
     }
 }
 
