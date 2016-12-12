@@ -59,13 +59,13 @@ class EditProfileViewController: UIViewController {
         
         if validator.hasMadeChanges() {
             switch validator.validateAccountDetails() {
-            case .Success:
+            case .success:
                 let alertController = UIAlertController(title: "Save Changes", message: "Can successfully save changes: \n \(validator.changes())", preferredStyle: .alert)
                 let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(dismissAction)
                 
                 present(alertController, animated: true, completion: nil)
-            case .Failure(let accountValidationErrorMessages):
+            case .failure(let accountValidationErrorMessages):
                 if accountValidationErrorMessages.firstNameLocalizedErrorMessage != nil {
                     showError(textField: firstNameTextField, messagelabel: firstNameErrorLabel, message: accountValidationErrorMessages.firstNameLocalizedErrorMessage!)
                 }
@@ -159,30 +159,30 @@ extension EditProfileViewController: UITextFieldDelegate {
             validator.firstName = textField.text
             
             switch validator.validateFirstName() {
-            case .Success:
+            case .success:
                 hideErrorMessage(messagelabel: firstNameErrorLabel)
                 break
-            case .Failure(let localizedErrorMessage):
+            case .failure(let localizedErrorMessage):
                 showError(textField: textField, messagelabel: firstNameErrorLabel, message: localizedErrorMessage)
             }
         } else if textField == lastNameTextField {
             validator.lastName = textField.text
             
             switch validator.validateLastName() {
-            case .Success:
+            case .success:
                 hideErrorMessage(messagelabel: lastNameErrorLabel)
                 break
-            case .Failure(let localizedErrorMessage):
+            case .failure(let localizedErrorMessage):
                 showError(textField: textField, messagelabel: lastNameErrorLabel, message: localizedErrorMessage)
             }
         } else if textField == emailTextField {
             validator.email = textField.text
             
             switch validator.validateEmail() {
-            case .Success:
+            case .success:
                 hideErrorMessage(messagelabel: emailErrorLabel)
                 break
-            case .Failure(let localizedErrorMessage):
+            case .failure(let localizedErrorMessage):
                 showError(textField: textField, messagelabel: emailErrorLabel, message: localizedErrorMessage)
             }
         } else if textField == ageTextField {
@@ -195,10 +195,10 @@ extension EditProfileViewController: UITextFieldDelegate {
             validator.age = Int(age)
             
             switch validator.validateAge() {
-            case .Success:
+            case .success:
                 hideErrorMessage(messagelabel: ageErrorLabel)
                 break
-            case .Failure(let localizedErrorMessage):
+            case .failure(let localizedErrorMessage):
                 showError(textField: textField, messagelabel: ageErrorLabel, message: localizedErrorMessage)
             }
         }

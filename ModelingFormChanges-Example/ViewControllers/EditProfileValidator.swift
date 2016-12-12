@@ -9,15 +9,15 @@
 import Foundation
 
 enum ValidationResult<E: Equatable>: Equatable {
-    case Success
-    case Failure(E)
+    case success
+    case failure(E)
 }
 
 func ==<E: Equatable>(lhs: ValidationResult<E>, rhs: ValidationResult<E>) -> Bool {
     switch (lhs, rhs) {
-    case (let .Failure(failureLeft), let .Failure(failureRight)):
+    case (let .failure(failureLeft), let .failure(failureRight)):
         return failureLeft == failureRight
-    case (.Success, .Success):
+    case (.success, .success):
         return true
     default:
         return false
@@ -119,90 +119,90 @@ class EditProfileValidator: NSObject {
         var ageError: String? = nil
         
         switch validateFirstName() {
-        case .Success:
+        case .success:
             break
-        case .Failure(let message):
+        case .failure(let message):
             firstNameError = message
         }
         
         switch validateLastName() {
-        case .Success:
+        case .success:
             break
-        case .Failure(let message):
+        case .failure(let message):
             lastNameError = message
         }
         
         switch validateEmail() {
-        case .Success:
+        case .success:
             break
-        case .Failure(let message):
+        case .failure(let message):
             emailError = message
         }
         
         switch validateAge() {
-        case .Success:
+        case .success:
             break
-        case .Failure(let message):
+        case .failure(let message):
             ageError = message
         }
         
         if firstNameError != nil || lastNameError != nil || emailError != nil || ageError != nil {
             let editProfileErrorMessages = EditProfileErrorMessages(firstNameLocalizedErrorMessage: firstNameError, lastNameLocalizedErrorMessage: lastNameError, emailLocalizedErrorMessage: emailError, ageLocalizedErrorMessage: ageError)
             
-            return .Failure(editProfileErrorMessages)
+            return .failure(editProfileErrorMessages)
         }
         
-        return .Success
+        return .success
     }
     
     func validateFirstName() -> ValidationResult<String> {
         guard let firstName = firstName else {
-            return .Failure("Firstname can not be empty")
+            return .failure("Firstname can not be empty")
         }
         
         if firstName.characters.count < 2 {
-            return .Failure("Firstname is too short")
+            return .failure("Firstname is too short")
         } else {
-            return .Success
+            return .success
         }
     }
     
     func validateLastName() -> ValidationResult<String> {
         guard let lastName = lastName else {
-            return .Failure("Lastname can not be empty")
+            return .failure("Lastname can not be empty")
         }
         
         if lastName.characters.count < 2 {
-            return .Failure("Lastname is too short")
+            return .failure("Lastname is too short")
         } else {
-            return .Success
+            return .success
         }
     }
     
     func validateEmail() -> ValidationResult<String> {
         guard let email = email else {
-            return .Failure("Email can not be empty")
+            return .failure("Email can not be empty")
         }
         
         if email.characters.count < 5 {
-            return .Failure("Email is too short")
+            return .failure("Email is too short")
         } else {
-            return .Success
+            return .success
         }
     }
     
     func validateAge() -> ValidationResult<String> {
         guard let age = age else {
-            return .Failure("Age can not be empty")
+            return .failure("Age can not be empty")
         }
         
         let minimumAge = 13
         let maximumAge = 124
         
         if age < minimumAge || age > maximumAge {
-            return .Failure("Must be older than \(minimumAge) and younger than \(maximumAge)")
+            return .failure("Must be older than \(minimumAge) and younger than \(maximumAge)")
         } else {
-            return .Success
+            return .success
         }
     }
 }
