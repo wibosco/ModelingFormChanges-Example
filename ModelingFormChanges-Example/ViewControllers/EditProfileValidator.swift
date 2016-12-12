@@ -161,7 +161,7 @@ class EditProfileValidator: NSObject {
         }
         
         if firstName.characters.count < 2 {
-            return .Failure("Firstname can not be empty")
+            return .Failure("Firstname is too short")
         } else {
             return .Success
         }
@@ -173,7 +173,7 @@ class EditProfileValidator: NSObject {
         }
         
         if lastName.characters.count < 2 {
-            return .Failure("Lastname can not be empty")
+            return .Failure("Lastname is too short")
         } else {
             return .Success
         }
@@ -184,8 +184,8 @@ class EditProfileValidator: NSObject {
             return .Failure("Email can not be empty")
         }
         
-        if email.characters.count == 0 {
-            return .Failure("Email can not be empty")
+        if email.characters.count < 5 {
+            return .Failure("Email is too short")
         } else {
             return .Success
         }
