@@ -13,14 +13,8 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var ageTextField: UITextField!
     
     @IBOutlet weak var firstNameErrorLabel: UILabel!
-    @IBOutlet weak var lastNameErrorLabel: UILabel!
-    @IBOutlet weak var emailErrorLabel: UILabel!
-    @IBOutlet weak var ageErrorLabel: UILabel!
     
     @IBOutlet weak var updateButton: UIButton!
     
@@ -32,7 +26,7 @@ class EditProfileViewController: UIViewController {
     }()
     
     lazy var user: User = {
-        let user = User(firstName: "Tom", lastName: "Smithson", email: "tom.smithson@somewhere.com", age: 27)
+        let user = User(username: "Tom")
         return user
     }()
     
@@ -46,10 +40,7 @@ class EditProfileViewController: UIViewController {
      
         clearAllErrors()
         
-        firstNameTextField.text = user.firstName
-        lastNameTextField.text = user.lastName
-        emailTextField.text = user.email
-        ageTextField.text = "\(user.age)"
+        firstNameTextField.text = user.username
     }
     
     // MARK: - ButtonActions
@@ -66,20 +57,8 @@ class EditProfileViewController: UIViewController {
                 
                 present(alertController, animated: true, completion: nil)
             case .failure(let accountValidationErrorMessages):
-                if accountValidationErrorMessages.firstNameLocalizedErrorMessage != nil {
-                    showError(textField: firstNameTextField, messagelabel: firstNameErrorLabel, message: accountValidationErrorMessages.firstNameLocalizedErrorMessage!)
-                }
-                
-                if accountValidationErrorMessages.lastNameLocalizedErrorMessage != nil {
-                    showError(textField: lastNameTextField, messagelabel: lastNameErrorLabel, message: accountValidationErrorMessages.lastNameLocalizedErrorMessage!)
-                }
-                
-                if accountValidationErrorMessages.emailLocalizedErrorMessage != nil {
-                    showError(textField: emailTextField, messagelabel: emailErrorLabel, message: accountValidationErrorMessages.emailLocalizedErrorMessage!)
-                }
-                
-                if accountValidationErrorMessages.ageLocalizedErrorMessage != nil {
-                    showError(textField: ageTextField, messagelabel: ageErrorLabel, message: accountValidationErrorMessages.ageLocalizedErrorMessage!)
+                if accountValidationErrorMessages.usernameLocalizedErrorMessage != nil {
+                    showError(textField: firstNameTextField, messagelabel: firstNameErrorLabel, message: accountValidationErrorMessages.usernameLocalizedErrorMessage!)
                 }
             }
         } else {
@@ -105,9 +84,6 @@ class EditProfileViewController: UIViewController {
     
     func clearAllErrors() {
         hideErrorMessage(messagelabel: firstNameErrorLabel)
-        hideErrorMessage(messagelabel: lastNameErrorLabel)
-        hideErrorMessage(messagelabel: emailErrorLabel)
-        hideErrorMessage(messagelabel: ageErrorLabel)
     }
     
     // MARK: - Keyboard
@@ -155,66 +131,16 @@ extension EditProfileViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == firstNameTextField {
-            validator.firstName = textField.text
+            validator.username = textField.text
             
-            switch validator.validateFirstName() {
+            switch validator.validateUsername() {
             case .success:
                 hideErrorMessage(messagelabel: firstNameErrorLabel)
                 break
             case .failure(let localizedErrorMessage):
                 showError(textField: textField, messagelabel: firstNameErrorLabel, message: localizedErrorMessage)
             }
-        } else if textField == lastNameTextField {
-            validator.lastName = textField.text
-            
-            switch validator.validateLastName() {
-            case .success:
-                hideErrorMessage(messagelabel: lastNameErrorLabel)
-                break
-            case .failure(let localizedErrorMessage):
-                showError(textField: textField, messagelabel: lastNameErrorLabel, message: localizedErrorMessage)
-            }
-        } else if textField == emailTextField {
-            validator.email = textField.text
-            
-            switch validator.validateEmail() {
-            case .success:
-                hideErrorMessage(messagelabel: emailErrorLabel)
-                break
-            case .failure(let localizedErrorMessage):
-                showError(textField: textField, messagelabel: emailErrorLabel, message: localizedErrorMessage)
-            }
-        } else if textField == ageTextField {
-            var age = "0"
-            
-            if textField.text != nil {
-                age = textField.text!
-            }
-            
-            validator.age = Int(age)
-            
-            switch validator.validateAge() {
-            case .success:
-                hideErrorMessage(messagelabel: ageErrorLabel)
-                break
-            case .failure(let localizedErrorMessage):
-                showError(textField: textField, messagelabel: ageErrorLabel, message: localizedErrorMessage)
-            }
         }
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == firstNameTextField {
-            lastNameTextField.becomeFirstResponder()
-        } else if textField == lastNameTextField {
-            emailTextField.becomeFirstResponder()
-        } else if textField == emailTextField {
-            ageTextField.becomeFirstResponder()
-        } else {
-            ageTextField.resignFirstResponder()
-        }
-        
-        return true
     }
 }
 

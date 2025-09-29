@@ -7,8 +7,5 @@
 //
 
 struct User {
-    let firstName: String
-    let lastName: String
-    let email: String
-    let age: Int
+    let username: String
 }
