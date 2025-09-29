@@ -41,8 +41,8 @@ class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
      
         clearAllErrors()
         
@@ -112,11 +112,11 @@ class EditProfileViewController: UIViewController {
     
     // MARK: - Keyboard
     
-    func keyboardWillShow(notification: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         let info = notification.userInfo
-        let rect = (info![UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let duration = (info![UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        let option = UIViewAnimationOptions(rawValue: UInt((notification.userInfo![UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).integerValue << 16))
+        let rect = (info![UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let duration = (info![UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        let option = UIView.AnimationOptions(rawValue: UInt((notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).integerValue << 16))
         
         UIView.animate(withDuration: duration!, delay: 0, options: option, animations: {
             let keyboardHeight = self.view.convert(rect!, to: nil).size.height
@@ -125,11 +125,11 @@ class EditProfileViewController: UIViewController {
         }, completion: nil)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    @objc func keyboardWillHide(notification: NSNotification) {
         let info = notification.userInfo
-        let duration = (info![UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        let duration = (info![UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
-        let option = UIViewAnimationOptions(rawValue: UInt((notification.userInfo![UIKeyboardAnimationCurveUserInfoKey]! as AnyObject).integerValue << 16))
+        let option = UIView.AnimationOptions(rawValue: UInt((notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey]! as AnyObject).integerValue << 16))
         UIView.animate(withDuration: duration!, delay: 0, options: option, animations: {
             self.scrollViewBottomConstraint?.constant = 0
             self.scrollView.layoutIfNeeded()
@@ -137,7 +137,6 @@ class EditProfileViewController: UIViewController {
     }
     
     // MARK: - Gesture
-    
     
     @IBAction func backgroundTapped(_ sender: Any) {
         view.endEditing(true)
